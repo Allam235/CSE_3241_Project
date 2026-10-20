@@ -1,0 +1,8 @@
+CLUB(club_id[pk], location_name, physical_street_address, main_customer_phone_number,opening_date)
+FACILITY_AREA(club_id[pk,fk], area_code, area_name)
+MEMBER(member_id[pk], name, email, phone_number, date_of_birth, enrollment_date)
+EMERGENCY_CONTACT(name, relation, number)
+EMPLOYEE(employee_id[pk], employee_name, hire_date, salary, role)
+LOCKER(locket_location, locker_number, combination_code)
+SHOP()
+PAYMENT(cash, credit_card, ach_bank_account)
