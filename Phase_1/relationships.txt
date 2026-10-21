@@ -10,6 +10,10 @@
 [MEMBER](0,N) <checks> [CHECK_IN](1,1)
 [MEMBER](1,N) <attendees> [TRAINING_REGISTRATION](1,N)
 [MEMBER](1,1) <rent> [LOCKERS](1,1)
+[MEMBER](0,N) <makes_payment> [PAYMENT](1,1)
+[MEMBER](0,N) <saves_card> [CREDIT_CARD](1,1)
+[MEMBER](0,N) <saves_account> [ACH_ACCOUNT](1,1)
+
 
 [CHECK_IN](1,1) <check_in_member> [MEMBER](0,N)
 [CHECK_IN](1,1) <check_in_location> [CLUB](0, N)
@@ -20,6 +24,8 @@
 [ITEM_TRANSACTION](1,1) <item_id> [ITEM](0,N)
 [ITEM_TRANSACTION](1,1) <member> [MEMBER](0,N)
 [ITEM_TRANSACTION](1,1) <location> [CLUB](0,N)
+[PRO_SHOP](0,N) <stocks> [SHOP_INVENTORY](1,1)
+[ITEM](0,N) <inventory_record> [SHOP_INVENTORY](1,1)
 
 
 [STAFF]
@@ -47,5 +53,7 @@
 [STAFF](1,N) <works> [CLUB](1,1)
 
 
+[PAYMENT](0,1) <uses_card> [CREDIT_CARD](0,N)
+[PAYMENT](0,1) <uses_account> [ACH_ACCOUNT](0,N)
 
 [JUNIOR_PERSONAL_TRAINER]

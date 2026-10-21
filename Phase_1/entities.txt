@@ -1,19 +1,34 @@
+#Clubs and Facilities
 CLUB(club_id[pk], location_name, street_address, main_phone_number,opening_date)
 FACILITY_AREA(club_id[pk,fk], area_code[pk], area_name, maximum_occupancy)
+
+#Member,Turnstiles and Emergency Contacts
 MEMBER(member_id[pk], name, email, phone_number, date_of_birth, enrollment_date)
-EMERGENCY_CONTACT(name, relation, number)
-EMPLOYEE(employee_id[pk], employee_name, hire_date, salary, role)
-LOCKER(locket_location, locker_number, combination_code[pk])
-SHOP(club_id[pk,fk], store_name, square_footage, operating_hours)
-PRODUCT(item_code[pk], item_name, category, standard_retail_price)
-SHOP_INVENTORY(club_id[pk,fk], item_code[pk,fk], quantity_in_stock)
-SHOP_PURCHASE(purchase_id[pk], club_id[fk], member_id[fk], purchase_timestamp, payment_choice)
+EMERGENCY_CONTACT(member_id[pk,fk], name, relation, number)
 MEMBERSHIP_TIER(tier_code[pk], tier_name, tire_monthly_pass)
-MEMBERSHIP_COST(tier_code[pk,fk], club[pk])
-TRAINING_CATALOG(unique_code[pk], title, description, intensity_rating)
-PERSONAL_TRAINING_SESSION(member_id[pk, fk],employee_id[pk, fk], date, time_slot, duration, status)
-GROUP_CLASS_SESSION(class_session_id[pk], unique_code[fk], club_id[fk], area_code[fk], trainer_id[fk], session_date, start_time, end_time)
-PAYMENT(cash, credit_card[fk], ach_bank_account[fk])
-CREDIT_CARD(name, token, expiration_date, billing_code)
-ACH_ACCOUNT(bank_name, acc_holder_name, acc_type, routing_number, masked_bank_acc_number)
+MEMBERSHIP_COST(tier_code[pk,fk], club[pk,fk], monthly_base_fee)
 CHECK_IN(check_in_id[pk], check_in_timestamp, member_id[fk], club_id[fk])
+
+#Staff and Training
+STAFF(staff_id[pk], employee_name, hire_date, salary, role)
+CATALOG_TRAINING(unique_code[pk], title, description, intensity_rating)
+TRAINING_REGISTRATION(registration_id[pk], registration_timestamp, status)
+PERSONAL_TRAINER(staff_id[pk,fk], specialty)
+PERSONAL_TRAINING(session_id[pk], member_id[fk],staff_id[fk], date, time_slot, duration, status, session_fee, trainer_notes)
+
+#Group Fitness Classes
+GROUP_TRAINING(class_session_id[pk], unique_code[fk], club_id[fk], area_code[fk], trainer_id[fk], session_date, start_time, end_time)
+
+#Locker
+LOCKER(, club_id[pk,fk], locket_location, locker_number[pk], combination_code[pk])
+
+#pro shop
+PRO_SHOP(club_id[pk,fk], store_name, square_footage, operating_hours)
+ITEM(item_code[pk], item_name, category, standard_retail_price)
+SHOP_INVENTORY(club_id[pk,fk], item_code[pk,fk], quantity_in_stock)
+ITEM_TRANSACTION(purchase_id[pk], club_id[fk], member_id[fk], purchase_timestamp, payment_choice)
+
+#Payments
+PAYMENT(payment_id[pk], payment_timestamp, amount, status, payment_method)
+CREDIT_CARD(card_id[pk], name, token, expiration_date, billing_code)
+ACH_ACCOUNT(account_id[pk], bank_name, acc_holder_name, acc_type, routing_number, masked_bank_acc_number)
