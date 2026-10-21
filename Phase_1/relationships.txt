@@ -1,0 +1,51 @@
+
+[FACILITY_AREA](1,1) <LOCATED> [CLUB](1,N)
+
+
+[MEMBER](1,1) <contacts> [EMERGENCY_CONTACT](1,1)
+##Not needed maybe since you can use MEMBERSHIP_COST to find MEMBERSHIP_TIER
+    [MEMBER](1,1) <membership> [MEMBERSHIP_TIER](1,1)
+[MEMBER](1,1) <pays> [MEMBERSHIP_COST](1,1)
+[MEMBER](1,1) <home_clubs> [CLUB](0,N)
+[MEMBER](0,N) <checks> [CHECK_IN](1,1)
+[MEMBER](1,N) <attendees> [TRAINING_REGISTRATION](1,N)
+[MEMBER](1,1) <rent> [LOCKERS](1,1)
+
+[CHECK_IN](1,1) <check_in_member> [MEMBER](0,N)
+[CHECK_IN](1,1) <check_in_location> [CLUB](0, N)
+[LOCKER](1,1) <locker_location> [CLUB](0,N)
+
+[PRO_SHOP](1,1) <location_at> [CLUB](1,1)
+[PRO_SHOP](1,1) <inventory> [ITEM](1,1)
+[ITEM_TRANSACTION](1,1) <item_id> [ITEM](0,N)
+[ITEM_TRANSACTION](1,1) <member> [MEMBER](0,N)
+[ITEM_TRANSACTION](1,1) <location> [CLUB](0,N)
+
+
+[STAFF]
+[FRONT_DESK](1,1) <primary_workplace> [CLUB](0,N)
+[GENERAL_MANAGER](1,1) <primary_workplace> [CLUB](1,N)
+[MAINTENANCE_PERSONNEL](1,1) <primary_workplace> [CLUB](0,N)
+[SENIOR_PERSONAL_TRAINERS](1,1) <primary_workplace> [CLUB](0,N)
+[JUNIOR_PERSONAL_TRAINERS](1,1) <primary_workplace> [CLUB](0,N)
+[SENIOR_PERSONAL_TRAINERS](0,N) <mentors> [JUNIOR_PERSONAL_TRAINER](0,1)
+
+[FITNESS_CLASSES]
+[CATALOG_TRAINING]
+## Is Group Training a weak entitiy to CATALOG_TRAINING?
+[GROUP_TRAINING](1,1) <training_type> [CATALOG_TRAINING](0,N)
+[GROUP_TRAINING](1,1) <trainer> [PERSONAL_TRAINER](1,1)
+[GROUP_TRAINING](1,1) <location> [FACILITY_AREA](1,1)
+[GROUP_TRAINING](1,N) <training_session> [TRAINING_REGISTRATION](1,N)
+[PERSONAL_TRAINING](1,1) <attending_member> [MEMBER]
+[PERSONAL_TRAINING](1,1) <trainer> [PERSONAL_TRAINER]
+## Can only Senior Peronsal TRainers take Personal Training Sessions
+
+
+[MEMBER](1,1) <pays> [MEMBERSHIP_COST]
+
+[STAFF](1,N) <works> [CLUB](1,1)
+
+
+
+[JUNIOR_PERSONAL_TRAINER]
