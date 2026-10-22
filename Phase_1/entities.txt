@@ -1,34 +1,40 @@
 #Clubs and Facilities
-CLUB(club_id[pk], location_name, street_address, main_phone_number,opening_date)
+CLUB(club_id[pk], location_name, street_address, main_phone_number, opening_date)
 FACILITY_AREA(club_id[pk,fk], area_code[pk], area_name, maximum_occupancy)
 
 #Member,Turnstiles and Emergency Contacts
 MEMBER(member_id[pk], name, email, phone_number, date_of_birth, enrollment_date)
 EMERGENCY_CONTACT(member_id[pk,fk], name, relation, number)
 MEMBERSHIP_TIER(tier_code[pk], tier_name, tire_monthly_pass)
-MEMBERSHIP_COST(tier_code[pk,fk], club[pk,fk], monthly_base_fee)
+MEMBERSHIP_COST(tier_code[pk,fk], club_id[pk,fk], monthly_base_fee)
 CHECK_IN(check_in_id[pk], check_in_timestamp, member_id[fk], club_id[fk])
 
 #Staff and Training
 STAFF(staff_id[pk], employee_name, hire_date, salary, role)
+STAFF_SHIFT(shift_id[pk], shift_date, start_time, end_time)
 CATALOG_TRAINING(unique_code[pk], title, description, intensity_rating)
 TRAINING_REGISTRATION(registration_id[pk], registration_timestamp, status)
-PERSONAL_TRAINER(staff_id[pk,fk], specialty)
+TRAINER(staff_id[pk,fk], training_specialty, bio)
 PERSONAL_TRAINING(session_id[pk], member_id[fk],staff_id[fk], date, time_slot, duration, status, session_fee, trainer_notes)
 
 #Group Fitness Classes
 GROUP_TRAINING(class_session_id[pk], unique_code[fk], club_id[fk], area_code[fk], trainer_id[fk], session_date, start_time, end_time)
 
 #Locker
-LOCKER(, club_id[pk,fk], locket_location, locker_number[pk], combination_code[pk])
+LOCKER(club_id[pk,fk], locket_location, locker_number[pk], combination_code[pk])
+LOCKER_RENTAL(rental_id[pk], start_date, end_date, monthly_rate)
 
 #pro shop
 PRO_SHOP(club_id[pk,fk], store_name, square_footage, operating_hours)
 ITEM(item_code[pk], item_name, category, standard_retail_price)
+PURCHASE_ITEM(purchase_id[pk,fk], item_code[pk,fk], quantity, unit_price)
 SHOP_INVENTORY(club_id[pk,fk], item_code[pk,fk], quantity_in_stock)
 ITEM_TRANSACTION(purchase_id[pk], club_id[fk], member_id[fk], purchase_timestamp, payment_choice)
 
 #Payments
 PAYMENT(payment_id[pk], payment_timestamp, amount, status, payment_method)
+PAYMENT_ALLOCATION(payment_id[pk,fk], invoice_id[pk,fk], allocated_amount)
 CREDIT_CARD(card_id[pk], name, token, expiration_date, billing_code)
 ACH_ACCOUNT(account_id[pk], bank_name, acc_holder_name, acc_type, routing_number, masked_bank_acc_number)
+INVOICE(invoice_id[pk], billing_date, billing_period, total_balance_due)
+INVOICE_LINE_ITEM(line_item_id[pk], description, amount, charge_type)
