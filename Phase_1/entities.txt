@@ -14,14 +14,21 @@ STAFF(staff_id[pk], employee_name, hire_date, salary, role)
 STAFF_SHIFT(shift_id[pk], shift_date, start_time, end_time)
 CATALOG_TRAINING(unique_code[pk], title, description, intensity_rating)
 TRAINING_REGISTRATION(registration_id[pk], registration_timestamp, status)
-TRAINER(staff_id[pk,fk], training_specialty, bio)
 PERSONAL_TRAINING(session_id[pk], member_id[fk],staff_id[fk], date, time_slot, duration, status, session_fee, trainer_notes)
+
+#subclass of STAFF
+TRAINER(staff_id[pk,fk], training_specialty, bio)
+FRONT_DESK(staff_id[pk,fk])
+GENERAL_MANAGER(staff_id[pk,fk])
+MAINTENANCE_PERSONNEL(staff_id[pk,fk])
+SENIOR_PERSONAL_TRAINERS(staff_id[pk,fk])
+JUNIOR_PERSONAL_TRAINERS(staff_id[pk,fk])
 
 #Group Fitness Classes
 GROUP_TRAINING(class_session_id[pk], unique_code[fk], club_id[fk], area_code[fk], trainer_id[fk], session_date, start_time, end_time)
 
 #Locker
-LOCKER(club_id[pk,fk], locket_location, locker_number[pk], combination_code[pk])
+LOCKER(club_id[pk,fk], locket_location, locker_number[pk], combination_code)
 LOCKER_RENTAL(rental_id[pk], start_date, end_date, monthly_rate)
 
 #pro shop
@@ -38,3 +45,12 @@ CREDIT_CARD(card_id[pk], name, token, expiration_date, billing_code)
 ACH_ACCOUNT(account_id[pk], bank_name, acc_holder_name, acc_type, routing_number, masked_bank_acc_number)
 INVOICE(invoice_id[pk], billing_date, billing_period, total_balance_due)
 INVOICE_LINE_ITEM(line_item_id[pk], description, amount, charge_type)
+
+
+
+NOTES:
+- FACILITY_AREA and LOCKER may be week entities
+- MEMBERSHIP_COST depends on both CLUB and MEMBERSHIP_TIER
+- PAYMENT_ALLOCATION tracks payments across multiple invoices
+- LOCKER_RENTAL tracks rental period and fees
+- We are still reviewing the entities and attributes to make sure they meet the requirements.
