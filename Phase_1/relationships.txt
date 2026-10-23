@@ -1,58 +1,59 @@
-
 [FACILITY_AREA](1,1) <LOCATED> [CLUB](1,N)
 
 
 [MEMBER](1,1) <contacts> [EMERGENCY_CONTACT](1,1)
 [MEMBER](1,1) <membership> [MEMBERSHIP_TIER](1,1)
-[MEMBER](1,1) <pays> [MEMBERSHIP_COST](1,1)
-[MEMBER](1,1) <home_clubs> [CLUB](0,N)
+[MEMBER](1,1) <home_club> [CLUB](0,N)
 [MEMBER](0,N) <checks> [CHECK_IN](1,1)
 [MEMBER](1,N) <attendees> [TRAINING_REGISTRATION](1,N)
-[MEMBER](1,1) <rent> [LOCKER](1,1)
 [MEMBER](0,N) <makes_payment> [PAYMENT](1,1)
 [MEMBER](0,N) <saves_card> [CREDIT_CARD](1,1)
 [MEMBER](0,N) <saves_account> [ACH_ACCOUNT](1,1)
+[MEMBER](1,N) <receives> [INVOICE](1,1)
 
 
-[CHECK_IN](1,1) <check_in_member> [MEMBER](0,N)
-[CHECK_IN](1,1) <check_in_location> [CLUB](0, N)
+[CHECK_IN](1,1) <check_in_location> [CLUB](0,N)
 [LOCKER](1,1) <locker_location> [CLUB](0,N)
+[LOCKER_RENTAL](1,1) <member_id> [MEMBER](0,N)
+[LOCKER_RENTAL](1,1) <locker_number> [LOCKER](0,N)
 
-[PRO_SHOP](1,1) <location_at> [CLUB](1,1)
-[PRO_SHOP](1,1) <inventory> [ITEM](1,1)
-[ITEM_TRANSACTION](1,1) <item_id> [ITEM](0,N)
-[ITEM_TRANSACTION](1,1) <member> [MEMBER](0,N)
-[ITEM_TRANSACTION](1,1) <location> [CLUB](0,N)
+[CLUB](0,1) <operates> [PRO_SHOP](1,1)
+[SHOP_TRANSACTION](1,1) <member> [MEMBER](0,N)
+[SHOP_TRANSACTION](1,1) <staff> [STAFF](0,N)
+[SHOP_TRANSACTION](1,1) <location> [CLUB](0,N)
+[SHOP_TRANSACTION](1,N) <<includes>> [[PURCHASE_ITEM]](1,1)
+[[PURCHASE_ITEM]](1,1) <for> [ITEM](1,1)
 [PRO_SHOP](0,N) <stocks> [SHOP_INVENTORY](1,1)
 [ITEM](0,N) <inventory_record> [SHOP_INVENTORY](1,1)
 
 
-[STAFF](0,N) <assigned_shift> STAFF_SHIFT(1,1)
-[FRONT_DESK](1,1) <primary_workplace> [CLUB](0,N)
-[GENERAL_MANAGER](1,1) <primary_workplace> [CLUB](1,N)
-[MAINTENANCE_PERSONNEL](1,1) <primary_workplace> [CLUB](0,N)
-[SENIOR_PERSONAL_TRAINERS](1,1) <primary_workplace> [CLUB](0,N)
-[JUNIOR_PERSONAL_TRAINERS](1,1) <primary_workplace> [CLUB](0,N)
-[SENIOR_PERSONAL_TRAINERS](0,N) <mentors> [JUNIOR_PERSONAL_TRAINER](0,1)
+[STAFF](0,N) <assigned_shift> [STAFF_SHIFT](1,1)
+[STAFF_SHIFT](1,1) <at_club> [CLUB](0,N)
+[STAFF](1,1) <primary_workplace> [CLUB](0,N)
+[GENERAL_MANAGER](0,1) <manages> [CLUB](1,1)
+[SENIOR_PERSONAL_TRAINERS](0,N) <mentors> [JUNIOR_PERSONAL_TRAINERS](0,1)
 
 [FITNESS_CLASSES]
 [CATALOG_TRAINING]
 ## Is Group Training a weak entitiy to CATALOG_TRAINING?
 [GROUP_TRAINING](1,1) <training_type> [CATALOG_TRAINING](0,N)
-[GROUP_TRAINING](1,1) <trainer> [PERSONAL_TRAINER](1,1)
+[GROUP_TRAINING](1,1) <at_club> [CLUB](0,N)
+[GROUP_TRAINING](1,1) <trainer> [TRAINER](1,1)
 [GROUP_TRAINING](1,1) <location> [FACILITY_AREA](1,1)
 [GROUP_TRAINING](1,N) <training_session> [TRAINING_REGISTRATION](1,N)
-[PERSONAL_TRAINING](1,1) <attending_member> [MEMBER]
-[PERSONAL_TRAINING](1,1) <trainer> [PERSONAL_TRAINER]
+[PERSONAL_TRAINING](0,N) <attending_member> [MEMBER](1,1)
+[PERSONAL_TRAINING](0,N) <trainer> [TRAINER](1,1)
 ## Can only Senior Peronsal TRainers take Personal Training Sessions
 
 
-[MEMBER](1,1) <pays> [MEMBERSHIP_COST]
+[MEMBERSHIP_TIER](1,N) <tier_fee> [MEMBERSHIP_COST](1,1) <tier_fee> [CLUB](1,N)
 
 [STAFF](1,1) <works> [CLUB](1,N)
 
 
+[PAYMENT](0,1) <processed_by> [STAFF](0,N)
 [PAYMENT](0,1) <uses_card> [CREDIT_CARD](0,N)
 [PAYMENT](0,1) <uses_account> [ACH_ACCOUNT](0,N)
-
-[JUNIOR_PERSONAL_TRAINER]
+[PAYMENT](1,N) <allocates> [PAYMENT_ALLOCATION](1,1)
+[INVOICE](1,N) <settled_by> [PAYMENT_ALLOCATION](1,1)
+[INVOICE](1,N) <<contains>> [[INVOICE_LINE_ITEM]](1,1)
