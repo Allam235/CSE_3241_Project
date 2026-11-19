@@ -29,8 +29,8 @@ JUNIOR_PERSONAL_TRAINERS(staff_id[pk,fk])
 GROUP_TRAINING(class_session_id[pk], unique_code[fk], club_id[fk], area_code[fk], trainer_id[fk], session_date, start_time, end_time)
 
 #Locker
-LOCKER(club_id[pk,fk], locket_location, locker_number[pk], combination_code)
-LOCKER_RENTAL(rental_id[pk], member_id[fk], club_id[fk], locker_number[fk], start_date, end_date, monthly_rate)
+LOCKER(locker_number[pk], locket_location, combination_code)
+LOCKER_RENTAL(rental_id[pk], start_date, end_date, monthly_rate)
 
 #pro shop
 PRO_SHOP(club_id[pk,fk], store_name, square_footage, operating_hours)
