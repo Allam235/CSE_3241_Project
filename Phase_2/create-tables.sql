@@ -226,3 +226,29 @@ CREATE TABLE LOCKER_RENTAL (
     FOREIGN KEY (club_id, locker_number)
         REFERENCES LOCKER(club_id, locker_number)
 ) STRICT;
+
+--Pro Shop
+CREATE TABLE PRO_Shop (
+    club_id INTEGER NOT NULL,
+    store_name TEXT NOT NULL,
+    square_footage INTEGER NOT NULL,
+    PRIMARY KEY (club_id),
+    FOREIGN KEY (club_id) REFERENCES CLUB(club_id)
+)STRICT;
+
+CREATE TABLE ITEM (
+    item_code TEXT NOT NULL,
+    item_name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    standard_retail_price REAL NOT NULL,
+    PRIMARY KEY (item_code)
+) STRICT;
+
+CREATE TABLE SHOP_INVENTORY (
+    club_id INTEGER NOT NULL,
+    item_code TEXT NOT NULL,
+    quantity_in_stock INTEGER NOT NULL,
+    PRIMARY KEY (club_id, item_code),
+    FOREIGN KEY (club_id) REFERENCES PRO_SHOP(club_id),
+    FOREIGN KEY (item_code) REFERENCES ITEM(item_code)
+)STRICT;
