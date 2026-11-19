@@ -252,3 +252,106 @@ CREATE TABLE SHOP_INVENTORY (
     FOREIGN KEY (club_id) REFERENCES PRO_SHOP(club_id),
     FOREIGN KEY (item_code) REFERENCES ITEM(item_code)
 )STRICT;
+
+CREATE TABLE SHOP_TRANSACTION (
+    purchase_id INTEGER NOT NULL,
+    club_id INTEGER NOT NULL,
+    member_id INTEGER NOT NULL,
+    staff_id INTEGER NOT NULL,
+    purchase_timestamp TEXT NOT NULL,
+    payment_choice TEXT NOT NULL,
+    PRIMARY KEY (purchase_id),
+    FOREIGN KEY (club_id) REFERENCES CLUB(club_id),
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id),
+    FOREIGN KEY (staff_id) REFERENCES STAFF(staff_id)
+) STRICT;
+
+CREATE TABLE PURCHASE_ITEM (
+    purchase_id INTEGER NOT NULL,
+    item_code TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    unit_price REAL NOT NULL,
+    PRIMARY KEY (purchase_id, item_code),
+    FOREIGN KEY (purchase_id)
+        REFERENCES SHOP_TRANSACTION(purchase_id),
+    FOREIGN KEY (item_code) REFERENCES ITEM(item_code)
+) STRICT;
+
+-- Saved Payment Methods
+
+CREATE TABLE CREDIT_CARD (
+    card_id INTEGER NOT NULL,
+    member_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    token TEXT NOT NULL,
+    expiration_date TEXT NOT NULL,
+    billing_code TEXT NOT NULL,
+    is_auto_pay INTEGER NOT NULL,
+    PRIMARY KEY (card_id),
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id),
+    CHECK (is_auto_pay IN (0, 1))
+) STRICT;
+
+CREATE TABLE ACH_ACCOUNT (
+    account_id INTEGER NOT NULL,
+    member_id INTEGER NOT NULL,
+    bank_name TEXT NOT NULL,
+    acc_holder_name TEXT NOT NULL,
+    acc_type TEXT NOT NULL,
+    routing_number TEXT NOT NULL,
+    masked_bank_acc_number TEXT NOT NULL,
+    is_auto_pay INTEGER NOT NULL,
+    PRIMARY KEY (account_id),
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id),
+    CHECK (is_auto_pay IN (0, 1))
+) STRICT;
+
+-- Invoices
+
+CREATE TABLE INVOICE (
+    invoice_id INTEGER NOT NULL,
+    member_id INTEGER NOT NULL,
+    billing_date TEXT NOT NULL,
+    billing_period TEXT NOT NULL,
+    total_balance_due REAL NOT NULL,
+    PRIMARY KEY (invoice_id),
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id)
+) STRICT;
+
+CREATE TABLE INVOICE_LINE_ITEM (
+    invoice_id INTEGER NOT NULL,
+    line_item_id INTEGER NOT NULL,
+    description TEXT NOT NULL,
+    amount REAL NOT NULL,
+    charge_type TEXT NOT NULL,
+    PRIMARY KEY (invoice_id, line_item_id),
+    FOREIGN KEY (invoice_id) REFERENCES INVOICE(invoice_id)
+) STRICT;
+
+-- Payments
+
+CREATE TABLE PAYMENT (
+    payment_id INTEGER NOT NULL,
+    member_id INTEGER NOT NULL,
+    staff_id INTEGER,
+    payment_timestamp TEXT NOT NULL,
+    amount REAL NOT NULL,
+    status TEXT NOT NULL,
+    payment_method TEXT NOT NULL,
+    card_id INTEGER,
+    account_id INTEGER,
+    PRIMARY KEY (payment_id),
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id),
+    FOREIGN KEY (staff_id) REFERENCES STAFF(staff_id),
+    FOREIGN KEY (card_id) REFERENCES CREDIT_CARD(card_id),
+    FOREIGN KEY (account_id) REFERENCES ACH_ACCOUNT(account_id)
+) STRICT;
+
+CREATE TABLE PAYMENT_ALLOCATION (
+    payment_id INTEGER NOT NULL,
+    invoice_id INTEGER NOT NULL,
+    allocated_amount REAL NOT NULL,
+    PRIMARY KEY (payment_id, invoice_id),
+    FOREIGN KEY (payment_id) REFERENCES PAYMENT(payment_id),
+    FOREIGN KEY (invoice_id) REFERENCES INVOICE(invoice_id)
+) STRICT;
