@@ -1,6 +1,7 @@
 PRAGMA foreign_keys = ON;
 
-#Clubs and Facilities
+--Clubs and Facilities
+
 CREATE TABLE CLUB (
     club_id INTEGER NOT NULL,
     location_name TEXT NOT NULL,
@@ -20,7 +21,8 @@ CREATE TABLE FACILITY_AREA (
     FOREIGN KEY (club_id) REFERENCES CLUB(club_id)
 ) STRICT;
 
-#Membership
+--Membership
+
 CREATE TABLE MEMBERSHIP_TIER (
     tier_code TEXT NOT NULL,
     tier_name TEXT NOT NULL,
@@ -71,7 +73,8 @@ CREATE TABLE CHECK_IN (
     FOREIGN KEY (club_id) REFERENCES CLUB(club_id)
 ) STRICT;
 
-#Staff
+--Staff
+
 CREATE TABLE STAFF (
     staff_id INTEGER NOT NULL,
     employee_name TEXT NOT NULL,
@@ -95,7 +98,8 @@ CREATE TABLE STAFF_SHIFT (
     FOREIGN KEY (club_id) REFERENCES CLUB(club_id)
 ) STRICT;
 
-#Staff Subclasses
+--Staff Subclasses
+
 CREATE TABLE FRONT_DESK (
     staff_id INTEGER NOT NULL,
     PRIMARY KEY (staff_id),
@@ -125,7 +129,8 @@ CREATE TABLE TRAINER (
     FOREIGN KEY (staff_id) REFERENCES STAFF(staff_id)
 ) STRICT;
 
-#Trainer Subclasses
+--Trainer Subclasses
+
 CREATE TABLE SENIOR_PERSONAL_TRAINERS (
     staff_id INTEGER NOT NULL,
     PRIMARY KEY (staff_id),
@@ -141,7 +146,8 @@ CREATE TABLE JUNIOR_PERSONAL_TRAINERS (
         REFERENCES SENIOR_PERSONAL_TRAINERS(staff_id)
 ) STRICT;
 
-#Training and Fitness Classes
+--Training and Fitness Classes
+
 CREATE TABLE CATALOG_TRAINING (
     unique_code TEXT NOT NULL,
     title TEXT NOT NULL,
@@ -196,7 +202,8 @@ CREATE TABLE PERSONAL_TRAINING (
     FOREIGN KEY (staff_id) REFERENCES TRAINER(staff_id)
 ) STRICT;
 
-#Lockers
+--Lockers
+
 CREATE TABLE LOCKER (
     club_id INTEGER NOT NULL,
     locket_location TEXT NOT NULL,
