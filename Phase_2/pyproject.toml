@@ -1,0 +1,19 @@
+[project]
+name = "phase-2"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Allam235", email = "106848509+Allam235@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "sqlite-vec>=0.1.9",
+]
+
+[project.scripts]
+phase-2 = "phase_2:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
