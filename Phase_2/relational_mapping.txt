@@ -5,7 +5,7 @@ FACILITY_AREA(club_id[pk,fk], area_code[pk], area_name, maximum_occupancy)
 #Member,Turnstiles and Emergency Contacts
 MEMBER(member_id[pk], name, email, phone_number, date_of_birth, enrollment_date, membership_status, club_id[fk], tier_code[fk])
 EMERGENCY_CONTACT(member_id[pk,fk], name, relation, number)
-MEMBERSHIP_TIER(tier_code[pk], tier_name, tire_monthly_pass)
+MEMBERSHIP_TIER(tier_code[pk], tier_name, tier_monthly_pass)
 MEMBERSHIP_COST(tier_code[pk,fk], club_id[pk,fk], monthly_base_fee)
 CHECK_IN(check_in_id[pk], check_in_timestamp, member_id[fk], club_id[fk])
 
@@ -29,15 +29,15 @@ JUNIOR_PERSONAL_TRAINERS(staff_id[pk,fk])
 GROUP_TRAINING(class_session_id[pk], unique_code[fk], club_id[fk], area_code[fk], trainer_id[fk], session_date, start_time, end_time)
 
 #Locker
-LOCKER(locker_number[pk], locket_location, combination_code)
-LOCKER_RENTAL(rental_id[pk], start_date, end_date, monthly_rate)
+LOCKER(club_id[pk,fk], locker_number[pk], locker_location, combination_code)
+LOCKER_RENTAL(rental_id[pk], member_id[fk], club_id[fk], locker_number[fk], start_date, end_date, monthly_rate)
 
 #pro shop
-PRO_SHOP(club_id[pk,fk], store_name, square_footage, operating_hours)
+PRO_SHOP(shop_id[pk], club_id[fk], store_name, square_footage, operating_hours)
 ITEM(item_code[pk], item_name, category, standard_retail_price)
-PURCHASE_ITEM(purchase_id[pk,fk], item_code[pk,fk], quantity, unit_price)
-SHOP_INVENTORY(club_id[pk,fk], item_code[pk,fk], quantity_in_stock)
-SHOP_TRANSACTION(purchase_id[pk], club_id[fk], member_id[fk], staff_id[fk], purchase_timestamp, payment_choice)
+SHOP_INVENTORY(shop_id[pk,fk], item_code[pk,fk], quantity_in_stock)
+PURCHASE_ITEM(line_item_id[pk], purchase_id[pk,fk], item_code[fk], quantity, unit_price)
+SHOP_TRANSACTION(purchase_id[pk], shop_id[fk], member_id[fk], staff_id[fk], purchase_timestamp, payment_choice)
 
 #Payments
 PAYMENT(payment_id[pk], member_id[fk], staff_id[fk], payment_timestamp, amount, status, payment_method, card_id[fk], account_id[fk])
@@ -50,9 +50,8 @@ INVOICE_LINE_ITEM(invoice_id[pk,fk], line_item_id[pk], description, amount, char
 
 
 NOTES:
-- FACILITY_AREA and LOCKER may be week entities
-- MEMBERSHIP_COST depends on both CLUB and MEMBERSHIP_TIER
+- FACILITY_AREA and LOCKER are weak entities
+- MEMBERSHIP_COST maps the priced_at relationship between MEMBERSHIP_TIER and CLUB
 - PAYMENT_ALLOCATION tracks payments across multiple invoices
 - LOCKER_RENTAL tracks rental period and fees
 - At most one saved payment method per member may have is_auto_pay set
-- We are still reviewing the entities and attributes to make sure they meet the requirements.
