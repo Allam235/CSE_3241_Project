@@ -4,8 +4,8 @@ FACILITY_AREA(area_code[pk], area_name, maximum_occupancy)
 
 #Member,Turnstiles and Emergency Contacts
 MEMBER(member_id[pk], name, email, phone_number, date_of_birth, enrollment_date, membership_status)
-EMERGENCY_CONTACT(emergency_contect_id[pk], name, relation, number)
-MEMBERSHIP_TIER(tier_code[pk], tier_name, tire_monthly_pass)
+EMERGENCY_CONTACT(name, relation, number)
+MEMBERSHIP_TIER(tier_code[pk], tier_name, tier_monthly_pass)
 MEMBERSHIP_COST(monthly_base_fee)
 CHECK_IN(check_in_id[pk], check_in_timestamp)
 
@@ -35,14 +35,14 @@ LOCKER_RENTAL(rental_id[pk], start_date, end_date, monthly_rate)
 #pro shop
 PRO_SHOP(shop_id[pk], store_name, square_footage, operating_hours)
 ITEM(item_code[pk], item_name, category, standard_retail_price)
-PURCHASE_ITEM(purchase_id[pk], quantity, unit_price)
-SHOP_INVENTORY(shop_id[pk], quantity_in_stock)
-SHOP_TRANSACTION(purchase_id[pk], purchase_timestamp, payment_type)
+PURCHASE_ITEM(line_item_id[pk], quantity, unit_price)
+SHOP_INVENTORY(quantity_in_stock)
+SHOP_TRANSACTION(purchase_id[pk], purchase_timestamp, payment_choice)
 
 #Payments
-PAYMENT(payment_id[pk], payment_timestamp, amount, status)
-RECURRING_PAYMENT(recurring_payment[pk], payment_method, allocated_amount)
-CREDIT_CARD(card_id[pk], token, expiration_date, billing_code, is_auto_pay)
+PAYMENT(payment_id[pk], payment_timestamp, amount, status, payment_method)
+PAYMENT_ALLOCATION(allocation_id[pk], allocated_amount)
+CREDIT_CARD(card_id[pk], name, token, expiration_date, billing_code, is_auto_pay)
 ACH_ACCOUNT(account_id[pk], bank_name, acc_holder_name, acc_type, routing_number, masked_bank_acc_number, is_auto_pay)
 INVOICE(invoice_id[pk], billing_date, billing_period, total_balance_due)
 INVOICE_LINE_ITEM(line_item_id[pk], description, amount, charge_type)
