@@ -26,7 +26,7 @@ CREATE TABLE FACILITY_AREA (
 CREATE TABLE MEMBERSHIP_TIER (
     tier_code TEXT NOT NULL,
     tier_name TEXT NOT NULL,
-    tire_monthly_pass REAL NOT NULL,
+    tier_monthly_pass REAL NOT NULL,
     PRIMARY KEY (tier_code)
 ) STRICT;
 
@@ -204,7 +204,7 @@ CREATE TABLE PERSONAL_TRAINING (
 
 CREATE TABLE LOCKER (
     club_id INTEGER NOT NULL,
-    locket_location TEXT NOT NULL,
+    locker_location TEXT NOT NULL,
     locker_number TEXT NOT NULL,
     combination_code TEXT NOT NULL,
     PRIMARY KEY (club_id, locker_number),
@@ -226,13 +226,15 @@ CREATE TABLE LOCKER_RENTAL (
 ) STRICT;
 
 --Pro Shop
-CREATE TABLE PRO_Shop (
+CREATE TABLE PRO_SHOP (
+    shop_id INTEGER NOT NULL,
     club_id INTEGER NOT NULL,
     store_name TEXT NOT NULL,
     square_footage INTEGER NOT NULL,
-    PRIMARY KEY (club_id),
+    operating_hours TEXT NOT NULL,
+    PRIMARY KEY (shop_id),
     FOREIGN KEY (club_id) REFERENCES CLUB(club_id)
-)STRICT;
+) STRICT;
 
 CREATE TABLE ITEM (
     item_code TEXT NOT NULL,
@@ -243,33 +245,34 @@ CREATE TABLE ITEM (
 ) STRICT;
 
 CREATE TABLE SHOP_INVENTORY (
-    club_id INTEGER NOT NULL,
+    shop_id INTEGER NOT NULL,
     item_code TEXT NOT NULL,
     quantity_in_stock INTEGER NOT NULL,
-    PRIMARY KEY (club_id, item_code),
-    FOREIGN KEY (club_id) REFERENCES PRO_SHOP(club_id),
+    PRIMARY KEY (shop_id, item_code),
+    FOREIGN KEY (shop_id) REFERENCES PRO_SHOP(shop_id),
     FOREIGN KEY (item_code) REFERENCES ITEM(item_code)
-)STRICT;
+) STRICT;
 
 CREATE TABLE SHOP_TRANSACTION (
     purchase_id INTEGER NOT NULL,
-    club_id INTEGER NOT NULL,
+    shop_id INTEGER NOT NULL,
     member_id INTEGER NOT NULL,
     staff_id INTEGER NOT NULL,
     purchase_timestamp TEXT NOT NULL,
     payment_choice TEXT NOT NULL,
     PRIMARY KEY (purchase_id),
-    FOREIGN KEY (club_id) REFERENCES CLUB(club_id),
+    FOREIGN KEY (shop_id) REFERENCES PRO_SHOP(shop_id),
     FOREIGN KEY (member_id) REFERENCES MEMBER(member_id),
     FOREIGN KEY (staff_id) REFERENCES STAFF(staff_id)
 ) STRICT;
 
 CREATE TABLE PURCHASE_ITEM (
     purchase_id INTEGER NOT NULL,
+    line_item_id INTEGER NOT NULL,
     item_code TEXT NOT NULL,
     quantity INTEGER NOT NULL,
     unit_price REAL NOT NULL,
-    PRIMARY KEY (purchase_id, item_code),
+    PRIMARY KEY (purchase_id, line_item_id),
     FOREIGN KEY (purchase_id)
         REFERENCES SHOP_TRANSACTION(purchase_id),
     FOREIGN KEY (item_code) REFERENCES ITEM(item_code)
@@ -346,10 +349,11 @@ CREATE TABLE PAYMENT (
 ) STRICT;
 
 CREATE TABLE PAYMENT_ALLOCATION (
+    allocation_id INTEGER NOT NULL,
     payment_id INTEGER NOT NULL,
     invoice_id INTEGER NOT NULL,
     allocated_amount REAL NOT NULL,
-    PRIMARY KEY (payment_id, invoice_id),
+    PRIMARY KEY (allocation_id),
     FOREIGN KEY (payment_id) REFERENCES PAYMENT(payment_id),
     FOREIGN KEY (invoice_id) REFERENCES INVOICE(invoice_id)
 ) STRICT;
