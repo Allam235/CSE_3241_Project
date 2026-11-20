@@ -111,8 +111,7 @@ CREATE TABLE GENERAL_MANAGER (
     managed_club_id INTEGER NOT NULL,
     PRIMARY KEY (staff_id),
     FOREIGN KEY (staff_id) REFERENCES STAFF(staff_id),
-    FOREIGN KEY (managed_club_id) REFERENCES CLUB(club_id),
-    UNIQUE (managed_club_id)
+    FOREIGN KEY (managed_club_id) REFERENCES CLUB(club_id)
 ) STRICT;
 
 CREATE TABLE MAINTENANCE_PERSONNEL (
@@ -183,8 +182,7 @@ CREATE TABLE TRAINING_REGISTRATION (
     PRIMARY KEY (registration_id),
     FOREIGN KEY (class_session_id)
         REFERENCES GROUP_TRAINING(class_session_id),
-    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id),
-    UNIQUE (class_session_id, member_id)
+    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id)
 ) STRICT;
 
 CREATE TABLE PERSONAL_TRAINING (
