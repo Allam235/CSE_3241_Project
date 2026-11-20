@@ -41,7 +41,6 @@
 
 
 [MEMBERSHIP_TIER](0,N) <priced_at> [CLUB](0,N)
-[STAFF](1,1) <works> [CLUB](1,N)
 
 
 [PAYMENT](0,1) <processed_by> [STAFF](0,N)

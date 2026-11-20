@@ -18,12 +18,12 @@ PERSONAL_TRAINING(session_id[pk], member_id[fk],staff_id[fk], date, time_slot, d
 
 #subclass of STAFF
 FRONT_DESK(staff_id[pk,fk])
-GENERAL_MANAGER(staff_id[pk,fk])
+GENERAL_MANAGER(staff_id[pk,fk], managed_club_id[fk])
 MAINTENANCE_PERSONNEL(staff_id[pk,fk])
 TRAINER(staff_id[pk,fk], training_specialty, bio)
 #subclass of TRAINER
 SENIOR_PERSONAL_TRAINERS(staff_id[pk,fk])
-JUNIOR_PERSONAL_TRAINERS(staff_id[pk,fk])
+JUNIOR_PERSONAL_TRAINERS(staff_id[pk,fk], mentor_id[fk])
 
 #Group Fitness Classes
 GROUP_TRAINING(class_session_id[pk], unique_code[fk], club_id[fk], area_code[fk], trainer_id[fk], session_date, start_time, end_time)
@@ -41,7 +41,7 @@ SHOP_TRANSACTION(purchase_id[pk], shop_id[fk], member_id[fk], staff_id[fk], purc
 
 #Payments
 PAYMENT(payment_id[pk], member_id[fk], staff_id[fk], payment_timestamp, amount, status, payment_method, card_id[fk], account_id[fk])
-PAYMENT_ALLOCATION(payment_id[pk,fk], invoice_id[pk,fk], allocated_amount)
+PAYMENT_ALLOCATION(allocation_id[pk], payment_id[fk], invoice_id[fk], allocated_amount)
 CREDIT_CARD(card_id[pk], member_id[fk], name, token, expiration_date, billing_code, is_auto_pay)
 ACH_ACCOUNT(account_id[pk], member_id[fk], bank_name, acc_holder_name, acc_type, routing_number, masked_bank_acc_number, is_auto_pay)
 INVOICE(invoice_id[pk], member_id[fk], billing_date, billing_period, total_balance_due)
@@ -52,6 +52,7 @@ INVOICE_LINE_ITEM(invoice_id[pk,fk], line_item_id[pk], description, amount, char
 NOTES:
 - FACILITY_AREA and LOCKER are weak entities
 - MEMBERSHIP_COST maps the priced_at relationship between MEMBERSHIP_TIER and CLUB
+- SHOP_INVENTORY maps stock between PRO_SHOP and ITEM
 - PAYMENT_ALLOCATION tracks payments across multiple invoices
 - LOCKER_RENTAL tracks rental period and fees
 - At most one saved payment method per member may have is_auto_pay set
