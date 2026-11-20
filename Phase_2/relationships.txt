@@ -23,8 +23,7 @@
 [SHOP_TRANSACTION](1,1) <at_shop> [PRO_SHOP](1,1)
 [SHOP_TRANSACTION](1,N) <<includes>> [[PURCHASE_ITEM]](1,1)
 [[PURCHASE_ITEM]](1,1) <for> [ITEM](1,1)
-[PRO_SHOP](1,N) <<stocks>> [[SHOP_INVENTORY]](1,1)
-[SHOP_INVENTORY](1,1) <for_item> [ITEM](1,1)
+[PRO_SHOP](1,N) <stock> [ITEM](1,1)
 
 [STAFF](0,N) <assigned_shift> [STAFF_SHIFT](1,1)
 [STAFF_SHIFT](1,1) <at_club> [CLUB](0,N)
@@ -41,7 +40,7 @@
 [PERSONAL_TRAINING](0,N) <trainer> [TRAINER](1,1)
 
 
-[MEMBERSHIP_TIER](1,N) <tier_fee> [MEMBERSHIP_COST](1,1) <tier_fee> [CLUB](1,N)
+[MEMBERSHIP_TIER](0,N) <priced_at> [CLUB](0,N)
 [STAFF](1,1) <works> [CLUB](1,N)
 
 
